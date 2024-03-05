@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste com Vue</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Jogo</title>
 </head>
 <body>
     <div id="app">
-        <h1>{{productName}} </h1>
-            <div v-bind:style="subtitleStyle">
-                <h2>{{Productsubtitle}}</h2>
-            </div>
-        <div>
-        <h2>{{ProductDescription}}</h2>
-        </div>
-        <div v-bind:src="backgroundcolor"></div>
-
-        <img v-bind:src="ship" v-bind:border-width="" v-bind:alt=""/>
-
+        <label>Adivinhe o Número? (0-10)<input type="number" v-model="userInput"></label>
+        <br>
+        <button @click="checkUserGuess">Verificar Palpite</button>
+        <p>{{ result }}</p>
+        <p v-if="cpuGuessNumber !== null">O número escolhido pelo CPU foi: {{ cpuGuessNumber }}</p>
     </div>
-    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.js"></script>
-    <script src="./index.js"></script>
 
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    userInput: 0,
+                    userAttempts: 0,
+                    cpuGuessNumber: null,
+                    result: ''
+                };
+            },
+            methods: {
+                checkUserGuess() {
+                    // Implemente sua lógica para verificar o palpite do usuário
+                    // Por exemplo, compare this.userInput com cpuGuessNumber
+                    // Atualize this.result de acordo
+                    this.userAttempts++;
+                    // Exemplo de lógica: comparar a entrada do usuário com um palpite aleatório da CPU
+                    this.cpuGuessNumber = Math.floor(Math.random() * 11); // Número aleatório entre 0 e 10
+                    if (this.userInput == this.cpuGuessNumber) {
+                        this.result = "Parabéns! Você acertou o número em " + this.userAttempts + " tentativas.";
+                    } else {
+                        this.result = 'Palpite incorreto. Tente novamente.';
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
 </body>
 </html>
