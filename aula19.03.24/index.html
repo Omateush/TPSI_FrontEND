@@ -5,20 +5,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
 </head>
 <body>
     <div id="app">
         {{hello}}
+       <Counter-Component></Counter-Component>
 
-        
+        <nav>
+            <ul>
+                <li></li>
+                <li></li>
+
+            </ul>
+
+
+        </nav>
+
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
     <script>
+        // DEFINIR ROUTE COMPONENTS
+        const Home = {
+            template: `
+            <div><h2> Home Page </h2> <p> Welcome to the home page </p></div>
+            `
+        }
+
+        const About = {
+            template: `
+            <div><h2> About page </h2> <p> Welcome to the about page </p></div>
+            `
+        }
+
+        const routes = [
+            {path: '/', components: Home},
+            {path: '/about', components: About},
+        ]
+
+        const router = new VueRouter{
+            {routes}
+
+        }
+
+        const CounterComponent = {
+            template: `
+                <button @click = "count++">
+                    Clicou no botão {{count}} vezes </button>
+            `,
+            setup(){
+                const count = Vue.ref(0);
+                return {count}
+            }
+        }
+
         const app = Vue.createApp({
+            
+            components: {
+                CounterComponent
+            },
+
             setup() {
-                const hello = Vue.ref("hello world with components")
-                return {hello};
+                const hello = Vue.ref("Hello World with components")
+                return {
+                    hello,
+                };
             }
         });
         app.mount('#app');
